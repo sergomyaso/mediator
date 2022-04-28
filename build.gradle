@@ -1,0 +1,38 @@
+plugins {
+	id 'org.springframework.boot' version '2.6.5'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+	id "org.flywaydb.flyway" version "7.11.3"
+}
+
+group = 'nsu.sberlab'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	compileOnly 'org.projectlombok:lombok:1.18.24'
+	annotationProcessor 'org.projectlombok:lombok:1.18.24'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	runtimeOnly 'org.flywaydb:flyway-core:7.11.3'
+	runtimeOnly 'org.postgresql:postgresql'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+flyway {
+	url = 'jdbc:postgresql://localhost:5434/monolit'
+	user = 'superadmin'
+	password = '123123'
+	schemas = ['public']
+	locations = ['filesystem:/src/main/resources/db/migration/']
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
